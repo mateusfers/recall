@@ -1,0 +1,2108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RECALL — Plataforma de Estudos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="header">
+  <div class="header-left">
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+    <h1 class="logo">RECALL</h1>
+    <span class="logo-sub">Plataforma de Estudos</span>
+  </div>
+  <div class="header-right">
+    <div class="progress-mini"><div class="progress-mini-bar" id="progressMiniBar"></div></div>
+    <span class="progress-mini-text" id="progressMiniText">0%</span>
+    <button class="btn-icon" id="btnErros" title="Meus Erros">❌</button>
+    <button class="btn-icon" id="btnResumo" title="Resumo Ativo">🎯</button>
+    <button class="btn-icon" id="btnReset" title="Resetar">🔄</button>
+  </div>
+</header>
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar conceito...">
+  </div>
+  <div class="sidebar-nav" id="sidebarNav">
+    <button class="nav-item active" data-section="home">🏠 Home</button>
+
+    <div class="nav-chapter">
+      <div class="nav-chapter-title">📘 Cap. 1 — Introdução</div>
+      <button class="nav-item" data-section="cap1-1">Funções do SO</button>
+      <button class="nav-item" data-section="cap1-2">Tipos de SO</button>
+      <button class="nav-item" data-section="cap1-3">História</button>
+      <button class="nav-item" data-section="cap1-4">Hardware</button>
+      <button class="nav-item" data-section="cap1-5">Chamadas de Sistema</button>
+      <button class="nav-item" data-section="cap1-6">Estruturas de SO</button>
+      <button class="nav-item" data-section="cap1-7">Processos/Arquivos</button>
+      <button class="nav-item" data-section="cap1-8">Unidades Métricas</button>
+    </div>
+
+    <div class="nav-chapter">
+      <div class="nav-chapter-title">📗 Cap. 2 — Processos</div>
+      <button class="nav-item" data-section="cap2-1">Processos</button>
+      <button class="nav-item" data-section="cap2-2">Estados</button>
+      <button class="nav-item" data-section="cap2-3">fork()</button>
+      <button class="nav-item" data-section="cap2-4">Threads</button>
+      <button class="nav-item" data-section="cap2-5">Comunicação (IPC)</button>
+      <button class="nav-item" data-section="cap2-6">Exclusão Mútua</button>
+      <button class="nav-item" data-section="cap2-7">Semáforos/Mutexes</button>
+      <button class="nav-item" data-section="cap2-8">Monitores</button>
+      <button class="nav-item" data-section="cap2-9">Produtor/Consumidor</button>
+      <button class="nav-item" data-section="cap2-10">Jantar dos Filósofos</button>
+      <button class="nav-item" data-section="cap2-11">Leitores/Escritores</button>
+      <button class="nav-item" data-section="cap2-12">Escalonamento</button>
+    </div>
+
+    <div class="nav-chapter">
+      <div class="nav-chapter-title">📕 Cap. 6 — Impasse</div>
+      <button class="nav-item" data-section="cap6-1">Definição e 4 Condições</button>
+      <button class="nav-item" data-section="cap6-2">Grafos de Recursos</button>
+      <button class="nav-item" data-section="cap6-3">Estratégias</button>
+      <button class="nav-item" data-section="cap6-4">Detecção</button>
+      <button class="nav-item" data-section="cap6-5">Algoritmo do Banqueiro</button>
+      <button class="nav-item" data-section="cap6-6">Prevenção</button>
+      <button class="nav-item" data-section="cap6-7">Livelock e Inanição</button>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="progress-full"><div class="progress-full-bar" id="progressFullBar"></div></div>
+    <span class="progress-full-text" id="progressFullText">Progresso: 0%</span>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay"></div>
+
+<main class="main" id="main">
+
+<!-- ==================== HOME ==================== -->
+<section class="section active" id="home">
+  <div class="hero">
+    <h1 class="hero-title">Bem-vindo ao RECALL</h1>
+    <p class="hero-sub">Plataforma de estudos baseada em <strong>recuperação ativa</strong>, <strong>repetição espaçada</strong> e <strong>compreensão profunda</strong>.</p>
+    <div class="hero-cards">
+      <div class="hero-card"><span class="hero-card-icon">🧠</span><h3>Active Recall</h3><p>Perguntas escondidas para recuperar antes de revelar.</p></div>
+      <div class="hero-card"><span class="hero-card-icon">🔁</span><h3>Spaced Repetition</h3><p>Revisões programadas para fixar no longo prazo.</p></div>
+      <div class="hero-card"><span class="hero-card-icon">🎯</span><h3>Resumo Ativo</h3><p>5-10 pontos essenciais para lembrar sem olhar.</p></div>
+      <div class="hero-card"><span class="hero-card-icon">❌</span><h3>Meus Erros</h3><p>Registre e revise os conceitos que você mais erra.</p></div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="startStudy()">🚀 Começar a Estudar</button>
+      <button class="btn btn-secondary" onclick="openResumo()">🎯 Ver Resumo Ativo</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.1 — FUNÇÕES DO SO ==================== -->
+<section class="section" id="cap1-1">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>Funções do Sistema Operacional</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>O SO tem <strong>duas funções principais</strong>:</p>
+    <ol>
+      <li><strong>Gerenciador de Recursos:</strong> gerencia CPU, memória, disco, E/S.</li>
+      <li><strong>Máquina Estendida:</strong> fornece abstrações (processos, arquivos, espaços de endereçamento) mais convenientes que o hardware.</li>
+    </ol>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 1.1) + Slides</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📖 Explicação Detalhada</h3>
+    <p>O SO esconde a complexidade do hardware. Ex: em vez de lidar com setores de disco, você lida com <em>arquivos</em>. Em vez de lidar com interrupções de rede, você lida com <em>sockets</em>.</p>
+    <p>Como <strong>gerenciador de recursos</strong>, o SO decide quem usa a CPU, quem aloca memória, quem usa a impressora. Como <strong>máquina estendida</strong>, ele oferece uma interface limpa e consistente.</p>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Os clientes reais do SO</h3>
+    <p>São os <strong>programas aplicativos</strong> (via programadores). Eles lidam diretamente com as abstrações fornecidas pela interface do usuário (shell ou GUI).</p>
+  </div>
+
+  <div class="recall-block" data-id="c1-1">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são as duas principais funções de um sistema operacional?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>1) Gerenciador de Recursos</strong> — gerencia CPU, memória, disco, E/S.<br><strong>2) Máquina Estendida</strong> — fornece abstrações (processos, arquivos, espaços de endereçamento).</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-1b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quem são os "clientes reais" do sistema operacional?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Os <strong>programas aplicativos</strong> (via programadores). Eles lidam com as abstrações fornecidas pela interface do usuário (shell ou GUI).</div>
+  </div>
+
+  <div class="interrogation-block">
+    <span class="interrogation-icon">❓</span>
+    <p><strong>Por quê?</strong> Por que o SO precisa fornecer uma "máquina estendida" em vez de deixar o programador lidar direto com o hardware?</p>
+    <button class="btn btn-reveal" onclick="revealInterrogation(this)">👁️ Ver resposta</button>
+    <div class="interrogation-answer">Porque o hardware é complexo, feio e cheio de detalhes. O SO cria abstrações limpas (arquivos, processos) que tornam a programação muito mais simples e portável.</div>
+  </div>
+
+  <div class="feynman-block">
+    <span class="feynman-icon">🗣️</span>
+    <p><strong>Feynman:</strong> Explique em voz alta, como se estivesse ensinando alguém:</p>
+    <p class="feynman-prompt">"O que é um sistema operacional e por que ele existe?"</p>
+    <div class="feynman-timer" id="feynman-c1-1">
+      <button class="btn btn-timer" onclick="startFeynmanTimer('c1-1')">⏱️ Iniciar (1 min)</button>
+      <span class="timer-display" id="timer-c1-1">01:00</span>
+    </div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-1', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-1', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.2 — TIPOS DE SO ==================== -->
+<section class="section" id="cap1-2">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>Tipos de Sistemas Operacionais (9 tipos)</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Existem <strong>9 tipos</strong> de sistemas operacionais:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Característica</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Grande Porte</strong></td><td>Muito E/S, lote, transações</td><td>OS/390</td></tr>
+          <tr><td><strong>Servidores</strong></td><td>Múltiplos usuários via rede</td><td>Solaris, Linux, Windows Server</td></tr>
+          <tr><td><strong>Multiprocessadores</strong></td><td>Múltiplas CPUs, paralelismo real</td><td>Linux, Windows</td></tr>
+          <tr><td><strong>Computadores Pessoais</strong></td><td>Um usuário, multiprogramação</td><td>Windows, Linux, macOS</td></tr>
+          <tr><td><strong>Portáteis</strong></td><td>Tablets, smartphones</td><td>Android, iOS</td></tr>
+          <tr><td><strong>Embarcados</strong></td><td>Não aceitam software do usuário</td><td>QNX, VxWorks, Embedded Linux</td></tr>
+          <tr><td><strong>Nós Sensores</strong></td><td>Bateria limitada, comunicação sem fio</td><td>TinyOS</td></tr>
+          <tr><td><strong>Tempo Real</strong></td><td>Prazos rígidos (crítico) ou toleráveis (não crítico)</td><td>eCos, VxWorks</td></tr>
+          <tr><td><strong>Cartões Inteligentes</strong></td><td>CPU mínima, JVM</td><td>Java Card</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 1.4) + Slides</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📖 Explicação Detalhada</h3>
+    <p><strong>Grande Porte:</strong> computadores do tamanho de uma sala, com capacidade de E/S gigantesca. Usados para processamento em lote, transações e time-sharing.</p>
+    <p><strong>Servidores:</strong> servem múltiplos usuários via rede. Fornecem serviços de impressão, arquivo, web.</p>
+    <p><strong>Multiprocessadores:</strong> múltiplas CPUs compartilhando memória. Paralelismo real.</p>
+    <p><strong>PCs:</strong> um único usuário. Multiprogramação. Ex: Windows, Linux, macOS.</p>
+    <p><strong>Portáteis:</strong> tablets, smartphones. CPUs multinúcleo, GPS, câmeras, sensores.</p>
+    <p><strong>Embarcados:</strong> controlam dispositivos que não parecem computadores (micro-ondas, TVs, carros). Não aceitam software do usuário.</p>
+    <p><strong>Nós Sensores:</strong> computadores minúsculos movidos a bateria com rádios integrados. Redes de sensores para monitoramento.</p>
+    <p><strong>Tempo Real:</strong> tempo é parâmetro-chave. Prazos rígidos (crítico) ou toleráveis (não crítico).</p>
+    <p><strong>Cartões Inteligentes:</strong> CPU mínima, memória restrita. JVM.</p>
+  </div>
+
+  <div class="recall-block" data-id="c1-2">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Cite 5 tipos de SO e dê um exemplo de cada.</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">1) Grande Porte — OS/390<br>2) Servidores — Linux/Solaris<br>3) PCs — Windows<br>4) Portáteis — Android/iOS<br>5) Embarcados — QNX/VxWorks</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-2b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quantos tipos de SO existem? Liste todos.</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">9 tipos: Grande Porte, Servidores, Multiprocessadores, PCs, Portáteis, Embarcados, Nós Sensores, Tempo Real, Cartões Inteligentes.</div>
+  </div>
+
+  <div class="interrogation-block">
+    <span class="interrogation-icon">❓</span>
+    <p><strong>Por quê?</strong> Por que um sistema embarcado <em>não</em> precisa de proteção entre processos?</p>
+    <button class="btn btn-reveal" onclick="revealInterrogation(this)">👁️ Ver resposta</button>
+    <div class="interrogation-answer">Porque todos os programas são carregados antecipadamente (na ROM) e o usuário não pode instalar software. Não há risco de software não confiável.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-2', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-2', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.3 — HISTÓRIA ==================== -->
+<section class="section" id="cap1-3">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>História dos Sistemas Operacionais</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <div class="timeline">
+      <div class="timeline-item"><span class="timeline-year">1945–1955</span><strong>1ª Geração — Válvulas</strong><p>Sem SO. Programação em painéis de ligação. ENIAC, Colossus. 20.000 válvulas.</p></div>
+      <div class="timeline-item"><span class="timeline-year">1955–1965</span><strong>2ª Geração — Transistores + Batch</strong><p>Sistemas em lote (batch). FMS, IBSYS. Cartões perfurados. IBM 7094.</p></div>
+      <div class="timeline-item"><span class="timeline-year">1965–1980</span><strong>3ª Geração — CIs + Multiprogramação</strong><p>IBM System/360. Multiprogramação, spooling, time-sharing (CTSS, MULTICS).</p></div>
+      <div class="timeline-item"><span class="timeline-year">1980–presente</span><strong>4ª Geração — PCs</strong><p>CP/M, MS-DOS, Windows, Mac OS, Linux.</p></div>
+      <div class="timeline-item"><span class="timeline-year">1990–presente</span><strong>5ª Geração — Móveis</strong><p>Symbian, Android, iOS.</p></div>
+    </div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 1.2) + Slides</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📖 Explicação Detalhada</h3>
+    <p><strong>1ª Geração:</strong> Um grupo de pessoas projetava, construía, programava, operava e mantinha cada máquina. Programação em código de máquina absoluto ou painéis de ligação.</p>
+    <p><strong>2ª Geração:</strong> Separação entre projetistas, construtores, operadores, programadores e manutenção. Sistemas em lote. IBM 1401 para leitura de cartões, IBM 7094 para computação.</p>
+    <p><strong>3ª Geração:</strong> IBM System/360 — primeira linha importante a usar CIs. Multiprogramação, spooling, time-sharing. CTSS (MIT), MULTICS (MIT + Bell Labs + GE).</p>
+    <p><strong>4ª Geração:</strong> Computadores pessoais. CP/M, MS-DOS, Windows, Mac OS, Linux.</p>
+    <p><strong>5ª Geração:</strong> Computadores móveis. Symbian, Android, iOS.</p>
+  </div>
+
+  <div class="recall-block" data-id="c1-3">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a diferença entre sistemas de compartilhamento de tempo e multiprogramação?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Multiprogramação:</strong> vários processos na memória, CPU alterna para maximizar utilização.<br><strong>Time-sharing:</strong> variante onde cada usuário tem um terminal on-line e o tempo de resposta é rápido.</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-3b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais foram os marcos da 3ª geração?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">IBM System/360 (primeira linha importante a usar CIs), multiprogramação, spooling, time-sharing (CTSS, MULTICS).</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-3', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-3', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.4 — HARDWARE ==================== -->
+<section class="section" id="cap1-4">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>Hardware de Computadores</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Um computador é composto por:</p>
+    <ul>
+      <li><strong>CPU</strong> — busca, decodifica, executa. Registradores, PC, PSW.</li>
+      <li><strong>Memória</strong> — hierarquia: registradores → cache → RAM → disco.</li>
+      <li><strong>Discos</strong> — armazenamento não volátil. Trilhas, setores, cilindros.</li>
+      <li><strong>Dispositivos de E/S</strong> — controlador + dispositivo. Drivers.</li>
+      <li><strong>Barramentos</strong> — PCIe, USB, SATA, DMI.</li>
+    </ul>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 1.3) + Slides</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📖 Explicação Detalhada</h3>
+    <p><strong>CPU:</strong> ciclo básico = buscar instrução, decodificar, executar. Registradores gerais + PC + PSW. Pipeline (múltiplos estágios). Superescalar (múltiplas unidades). Multithreading (hyperthreading). Multinúcleo.</p>
+    <p><strong>Memória:</strong> hierarquia de camadas. Registradores (rápidos, caros, pequenos) → Cache (L1, L2, L3) → RAM → Disco.</p>
+    <p><strong>Discos:</strong> pratos metálicos girando. Braço mecânico. Trilhas, setores (512 bytes), cilindros. Tempo de busca, atraso rotacional, taxa de transferência.</p>
+    <p><strong>E/S:</strong> controlador + dispositivo. Drivers. E/S mapeada na memória ou portas de E/S. DMA.</p>
+    <p><strong>Barramentos:</strong> PCIe (serial, ponto a ponto), USB, SATA, DMI. Barramento principal, barramentos secundários.</p>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Conceitos-Chave</h3>
+    <div class="grid-2">
+      <div class="mini-card"><h4>Pipeline</h4><p>Múltiplas instruções em estágios diferentes. Ex: busca, decodificação, execução.</p></div>
+      <div class="mini-card"><h4>Superescalar</h4><p>Múltiplas unidades de execução. Instruções executadas fora de ordem.</p></div>
+      <div class="mini-card"><h4>Hyperthreading</h4><p>CPU mantém estado de 2 threads e alterna em nanossegundos.</p></div>
+      <div class="mini-card"><h4>Multinúcleo</h4><p>Vários processadores completos no mesmo chip.</p></div>
+      <div class="mini-card"><h4>Cache</h4><p>L1, L2, L3. Dados muito usados. Cache hit vs cache miss.</p></div>
+      <div class="mini-card"><h4>DMA</h4><p>Acesso direto à memória. CPU não participa da transferência.</p></div>
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c1-4">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é pipeline e qual sua vantagem?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Pipeline divide a execução em estágios (busca, decodificação, execução). Enquanto uma instrução executa, outra é decodificada e outra buscada. <strong>Vantagem:</strong> aumenta o throughput (instruções por segundo).</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-4b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é DMA e por que ele é importante para a multiprogramação?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">DMA (Direct Memory Access) permite que dispositivos de E/S transfiram dados diretamente para a memória sem a CPU. <strong>Importância:</strong> a CPU fica livre para executar outros processos enquanto a E/S acontece.</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-4c">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a hierarquia de memória (da mais rápida para a mais lenta)?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Registradores → Cache (L1, L2, L3) → RAM → Disco.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-4', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-4', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.5 — CHAMADAS DE SISTEMA ==================== -->
+<section class="section" id="cap1-5">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>Chamadas de Sistema</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Chamadas de sistema são a interface entre programas de usuário e o SO. Elas permitem que o programa solicite serviços ao núcleo (kernel).</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 1.6) + Slides</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Categorias de Chamadas (UNIX/POSIX)</h3>
+    <div class="grid-2">
+      <div class="mini-card"><h4>Gerenciamento de Processos</h4><p><code>fork()</code>, <code>execve()</code>, <code>exit()</code>, <code>waitpid()</code></p></div>
+      <div class="mini-card"><h4>Gerenciamento de Arquivos</h4><p><code>open()</code>, <code>close()</code>, <code>read()</code>, <code>write()</code>, <code>lseek()</code>, <code>stat()</code></p></div>
+      <div class="mini-card"><h4>Gerenciamento de Diretórios</h4><p><code>mkdir()</code>, <code>rmdir()</code>, <code>link()</code>, <code>unlink()</code>, <code>mount()</code></p></div>
+      <div class="mini-card"><h4>Diversas</h4><p><code>chdir()</code>, <code>chmod()</code>, <code>kill()</code>, <code>time()</code></p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔄 Como funciona uma chamada de sistema (11 passos)</h3>
+    <ol class="steps">
+      <li>Programa empilha parâmetros (read)</li>
+      <li>Chama a rotina de biblioteca <code>read</code></li>
+      <li>Rotina coloca o número da chamada no registrador</li>
+      <li>Executa instrução <code>TRAP</code> (muda para modo núcleo)</li>
+      <li>Núcleo examina o número da chamada</li>
+      <li>Despacha para o tratador correto</li>
+      <li>Tratador executa a chamada</li>
+      <li>Retorna para a rotina de biblioteca</li>
+      <li>Retorna para o programa do usuário</li>
+      <li>Programa limpa a pilha</li>
+      <li>Continua execução</li>
+    </ol>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Modo Núcleo vs Modo Usuário</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Modo Núcleo</th><th>Modo Usuário</th></tr></thead>
+        <tbody>
+          <tr><td>Todas as instruções</td><td>Subconjunto de instruções</td></tr>
+          <tr><td>Acesso a todo hardware</td><td>E/S e proteção proibidas</td></tr>
+          <tr><td>Sistema operacional</td><td>Programas de usuário</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c1-5">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a diferença entre modo núcleo e modo usuário?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Núcleo:</strong> a CPU pode executar todas as instruções e acessar todo o hardware.<br><strong>Usuário:</strong> apenas um subconjunto. Instruções de E/S e proteção de memória são proibidas.</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-5b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é uma instrução TRAP?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Instrução que muda do modo usuário para o modo núcleo e transfere o controle para o SO. Usada em chamadas de sistema.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-5', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-5', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.6 — ESTRUTURAS DE SO ==================== -->
+<section class="section" id="cap1-6">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>Estruturas de Sistemas Operacionais (6 tipos)</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <div class="grid-2">
+      <div class="mini-card"><h4>📦 Monolítica</h4><p>Tudo em um único executável. Eficiente, mas difícil de manter.</p></div>
+      <div class="mini-card"><h4>🥞 Camadas</h4><p>Hierarquia: cada camada sobre a anterior. Isolamento, mas overhead.</p></div>
+      <div class="mini-card"><h4>⚛️ Micronúcleo</h4><p>Mínimo no núcleo; resto em user space. Confiável, mas lento.</p></div>
+      <div class="mini-card"><h4>👥 Cliente-Servidor</h4><p>Clientes pedem, servidores atendem. Distribuição.</p></div>
+      <div class="mini-card"><h4>💻 Máquina Virtual</h4><p>Clona o hardware. Executa vários SOs.</p></div>
+      <div class="mini-card"><h4>🔧 Exonúcleo</h4><p>Aloca recursos diretamente. Menos overhead.</p></div>
+    </div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 1.7) + Slides</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📖 Explicação Detalhada</h3>
+    <p><strong>Monolítica:</strong> todos os módulos compilados e linkados em um único programa. Ex: MS-DOS, UNIX.</p>
+    <p><strong>Camadas:</strong> hierarquia (THE, MULTICS). Cada camada oferece serviços à camada superior.</p>
+    <p><strong>Micronúcleo:</strong> mínimo no núcleo (MINIX 3, QNX). Drivers e servidores em user space.</p>
+    <p><strong>Cliente-Servidor:</strong> clientes pedem, servidores atendem. Comunicação por mensagens.</p>
+    <p><strong>Máquina Virtual:</strong> VM/370, VMware, KVM, VirtualBox.</p>
+    <p><strong>Exonúcleo:</strong> aloca recursos diretamente, sem mapeamento.</p>
+  </div>
+
+  <div class="recall-block" data-id="c1-6">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual estrutura é "tudo em um único executável"?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Monolítica.</strong> Todos os módulos são compilados e linkados em um único programa executável.</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-6b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a vantagem do micronúcleo sobre o monolítico?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Apenas o mínimo roda em modo núcleo. Drivers e servidores rodam em user space. Se um driver falha, não derruba o sistema inteiro. <strong>Maior confiabilidade.</strong></div>
+  </div>
+
+  <div class="interrogation-block">
+    <span class="interrogation-icon">❓</span>
+    <p><strong>Por quê?</strong> Por que o micronúcleo é mais confiável que o monolítico?</p>
+    <button class="btn btn-reveal" onclick="revealInterrogation(this)">👁️ Ver resposta</button>
+    <div class="interrogation-answer">Porque apenas o mínimo roda em modo núcleo. Drivers e servidores rodam em user space. Se um driver falha, não derruba o sistema inteiro.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-6', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-6', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.7 — PROCESSOS/ESPAÇOS/ARQUIVOS ==================== -->
+<section class="section" id="cap1-7">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>Conceitos: Processos, Espaços, Arquivos</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceitos-Chave</h3>
+    <div class="grid-3">
+      <div class="mini-card"><h4>🏃 Processo</h4><p>Programa em execução. Tem espaço de endereçamento, registradores, PC, pilha.</p></div>
+      <div class="mini-card"><h4>💾 Espaço de Endereçamento</h4><p>Lista de endereços que o processo pode usar (0 a máximo).</p></div>
+      <div class="mini-card"><h4>📁 Arquivo</h4><p>Abstração para dados. Nome, estrutura, tipo, acesso, atributos, operações.</p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Proteção UNIX</h3>
+    <p>Arquivos UNIX são protegidos por 9 bits: <code>rwx</code> para dono, grupo e outros.</p>
+    <p>Ex: <code>rwxr-x--x</code> → dono lê/escreve/executa, grupo lê/executa, outros executam.</p>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Pipes</h3>
+    <p>Um pipe é uma espécie de pseudoarquivo que conecta dois processos. O que um escreve, o outro lê. Ex: <code>cat file | grep "tree"</code>.</p>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Chamadas de Sistema para Arquivos</h3>
+    <ul>
+      <li><code>open()</code> — abre arquivo</li>
+      <li><code>close()</code> — fecha arquivo</li>
+      <li><code>read()</code> — lê dados</li>
+      <li><code>write()</code> — escreve dados</li>
+      <li><code>lseek()</code> — move ponteiro</li>
+      <li><code>stat()</code> — obtém informações</li>
+    </ul>
+  </div>
+
+  <div class="recall-block" data-id="c1-7">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é um pipe e para que serve?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Um <strong>pipe</strong> é uma espécie de pseudoarquivo que conecta dois processos. O que um escreve, o outro lê. Ex: <code>cat file | grep "tree"</code>.</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-7b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Como funciona a proteção de arquivos em UNIX?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">9 bits: <code>rwx</code> para dono, grupo e outros. Ex: <code>rwxr-x--x</code> → dono lê/escreve/executa, grupo lê/executa, outros executam.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-7', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-7', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 1.8 — UNIDADES MÉTRICAS ==================== -->
+<section class="section" id="cap1-8">
+  <div class="section-header">
+    <span class="section-tag">Cap. 1 — Introdução</span>
+    <h2>Unidades Métricas</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Prefixo</th><th>Símbolo</th><th>Fator</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td>quilo</td><td>K</td><td>2¹⁰ = 1024 (memória)</td><td>1 KB = 1024 bytes</td></tr>
+          <tr><td>mega</td><td>M</td><td>2²⁰ (memória)</td><td>1 MB = 1024 KB</td></tr>
+          <tr><td>giga</td><td>G</td><td>2³⁰ (memória)</td><td>1 GB = 1024 MB</td></tr>
+          <tr><td>tera</td><td>T</td><td>2⁴⁰ (memória)</td><td>1 TB = 1024 GB</td></tr>
+          <tr><td>mili</td><td>m</td><td>10⁻³</td><td>1 ms = 0,001 s</td></tr>
+          <tr><td>micro</td><td>µ</td><td>10⁻⁶</td><td>1 µs = 0,000001 s</td></tr>
+          <tr><td>nano</td><td>n</td><td>10⁻⁹</td><td>1 ns = 10⁻⁹ s</td></tr>
+          <tr><td>pico</td><td>p</td><td>10⁻¹²</td><td>1 ps = 10⁻¹² s</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warning"><strong>⚠️ Pegadinha:</strong> 1 GB = 1024 MB (memória), NÃO 1000 MB. Use 1024 para RAM e 1000 para discos/redes.</div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 1.11) + Slides</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📖 Explicação Detalhada</h3>
+    <p>As unidades de memória são potências de 2 (1 KB = 1024 bytes). As unidades de tempo e redes são potências de 10 (1 Kbps = 1000 bps).</p>
+    <p>Na dúvida, use <strong>1024</strong> para memória e <strong>1000</strong> para redes/discos.</p>
+  </div>
+
+  <div class="recall-block" data-id="c1-8">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quantos MB tem 1 GB? E quantos bytes tem 1 MB?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">1 GB = <strong>1024 MB</strong>.<br>1 MB = <strong>1024 × 1024 = 1.048.576 bytes</strong>.</div>
+  </div>
+
+  <div class="recall-block" data-id="c1-8b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quantos bytes tem 1 KB? E 1 TB?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">1 KB = <strong>1024 bytes</strong>.<br>1 TB = <strong>1024 GB = 2⁴⁰ bytes</strong>.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c1-8', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c1-8', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CAPÍTULO 2 — PROCESSOS E THREADS
+     ============================================================ -->
+
+<!-- ==================== CAP 2.1 — PROCESSOS ==================== -->
+<section class="section" id="cap2-1">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Processos (Conceito)</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Um <strong>processo</strong> é uma instância de um programa em execução. Inclui:</p>
+    <ul>
+      <li>Contador de programa (PC)</li>
+      <li>Registradores</li>
+      <li>Variáveis</li>
+      <li>Espaço de endereçamento</li>
+      <li>Arquivos abertos</li>
+      <li>Sinais, alarmes, etc.</li>
+    </ul>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.1) + Slides (Cap2-Sigaa-Parte01)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📖 Explicação Detalhada</h3>
+    <p>Um processo é uma <strong>abstração</strong> de um programa em execução. Ele dá suporte a operações (pseudo) concorrentes mesmo quando há apenas uma CPU disponível, transformando uma única CPU em múltiplas CPUs virtuais.</p>
+    <p><strong>Diferenciação entre programa e processo:</strong></p>
+    <ul>
+      <li><strong>Programa:</strong> entidade estática e permanente. Sequência de instruções. Passivo sob o ponto de vista do SO.</li>
+      <li><strong>Processo:</strong> entidade dinâmica e efêmera (transitória). Altera seu estado à medida que avança sua execução. Composto por programa (código), dados e contexto (valores).</li>
+    </ul>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Criação de Processos (4 eventos)</h3>
+    <ol>
+      <li><strong>Inicialização do sistema</strong> — processos de primeiro plano (interagem com usuário) e de segundo plano (daemons).</li>
+      <li><strong>Chamada de sistema de criação</strong> — ex: <code>fork()</code>.</li>
+      <li><strong>Solicitação do usuário</strong> — digitar um comando ou clicar em um ícone.</li>
+      <li><strong>Início de uma tarefa em lote</strong> — sistemas em lote.</li>
+    </ol>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Término de Processos (4 condições)</h3>
+    <ol>
+      <li><strong>Saída normal (voluntária)</strong> — o processo terminou seu trabalho.</li>
+      <li><strong>Erro fatal (involuntário)</strong> — ex: divisão por zero.</li>
+      <li><strong>Saída por erro (voluntária)</strong> — ex: arquivo não encontrado.</li>
+      <li><strong>Morto por outro processo (involuntário)</strong> — ex: <code>kill</code>.</li>
+    </ol>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Hierarquias de Processos</h3>
+    <p>Em UNIX, processos formam uma hierarquia (árvore) com <code>init</code> na raiz. Em Windows, não há hierarquia.</p>
+  </div>
+
+  <div class="recall-block" data-id="c2-1">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a diferença entre programa e processo?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Programa:</strong> entidade estática e permanente (sequência de instruções).<br><strong>Processo:</strong> entidade dinâmica e efêmera (programa em execução, com estado).</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-1b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são os 4 eventos que criam processos? E as 4 condições de término?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Criação:</strong> 1) Inicialização do sistema, 2) Chamada de sistema, 3) Solicitação do usuário, 4) Início de tarefa em lote.<br><strong>Término:</strong> 1) Saída normal, 2) Erro fatal, 3) Saída por erro, 4) Morto por outro processo.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-1', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-1', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.2 — ESTADOS ==================== -->
+<section class="section" id="cap2-2">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Estados de Processos</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Um processo pode estar em 3 estados:</p>
+    <div class="grid-3">
+      <div class="mini-card state-running"><h4>🏃 Executando</h4><p>Usando a CPU naquele instante.</p></div>
+      <div class="mini-card state-ready"><h4>⏸️ Pronto</h4><p>Executável, mas temporariamente parado.</p></div>
+      <div class="mini-card state-blocked"><h4>🚫 Bloqueado</h4><p>Esperando evento externo (E/S).</p></div>
+    </div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.1.5) + Slides (Slide 28)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔄 As 4 Transições</h3>
+    <div class="transitions">
+      <div class="transition-item"><span class="transition-num">①</span><strong>Bloqueado → Pronto</strong><span class="transition-desc">Evento ocorreu</span></div>
+      <div class="transition-item"><span class="transition-num">②</span><strong>Pronto → Executando</strong><span class="transition-desc">Escalonador escolhe</span></div>
+      <div class="transition-item"><span class="transition-num">③</span><strong>Executando → Pronto</strong><span class="transition-desc">Preempção (fim do quantum)</span></div>
+      <div class="transition-item"><span class="transition-num">④</span><strong>Executando → Bloqueado</strong><span class="transition-desc">Chamada bloqueante</span></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>⚠️ As 2 Transições Perdidas</h3>
+    <div class="grid-2">
+      <div class="mini-card bad"><h4>❌ Pronto → Bloqueado</h4><p>Não ocorre: só bloqueia se estiver executando.</p></div>
+      <div class="mini-card bad"><h4>❌ Bloqueado → Executando</h4><p>Não ocorre: precisa passar por Pronto primeiro.</p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Modelo de 5 Estados</h3>
+    <p>Além dos 3 estados, existem: <strong>Criação</strong> e <strong>Destruição</strong>.</p>
+    <div class="state-machine">
+      <div class="state-node">Criação</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node state-ready">Apto</div>
+      <div class="state-arrow">↔</div>
+      <div class="state-node state-running">Executando</div>
+      <div class="state-arrow">→</div>
+      <div class="state-node">Destruição</div>
+    </div>
+    <div class="state-machine">
+      <div class="state-node state-ready">Apto</div>
+      <div class="state-arrow">↕</div>
+      <div class="state-node state-blocked">Bloqueado</div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Processos Suspensos</h3>
+    <p>Razões para suspender um processo:</p>
+    <ul>
+      <li><strong>Swapping:</strong> SO libera memória para novo processo.</li>
+      <li><strong>Solicitação do usuário:</strong> depuradores.</li>
+      <li><strong>Temporização:</strong> execução interrompida por certo período.</li>
+      <li><strong>Sincronização:</strong> processo suspende outro.</li>
+    </ul>
+    <p>Novos estados: <strong>Bloqueado, suspenso</strong> e <strong>Apto, suspenso</strong>.</p>
+  </div>
+
+  <div class="recall-block" data-id="c2-2">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são as 4 transições de estado de um processo? E quais NÃO ocorrem?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Ocorrem:</strong><br>① Bloqueado → Pronto<br>② Pronto → Executando<br>③ Executando → Pronto<br>④ Executando → Bloqueado<br><br><strong>NÃO ocorrem:</strong><br>❌ Pronto → Bloqueado<br>❌ Bloqueado → Executando</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-2b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são os 5 estados do modelo completo?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Criação, Apto (Pronto), Executando, Bloqueado, Destruição.</div>
+  </div>
+
+  <div class="interrogation-block">
+    <span class="interrogation-icon">❓</span>
+    <p><strong>Por quê?</strong> Por que um processo <em>não</em> pode ir direto de Bloqueado para Executando?</p>
+    <button class="btn btn-reveal" onclick="revealInterrogation(this)">👁️ Ver resposta</button>
+    <div class="interrogation-answer">Porque quando o evento ocorre, o processo volta para <strong>Pronto</strong>. Só depois o escalonador pode escolhê-lo para <strong>Executando</strong>. Ele precisa esperar na fila de prontos.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-2', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-2', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.3 — FORK() ==================== -->
+<section class="section" id="cap2-3">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>fork() e Criação de Processos</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p><code>fork()</code> é a única chamada de sistema UNIX para criar um novo processo. Ela cria uma <strong>cópia exata</strong> do processo pai.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Slides (Cap2-Sigaa-Parte02) + Livro</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Retorno de fork()</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Contexto</th><th>Valor retornado</th></tr></thead>
+        <tbody>
+          <tr><td>Processo filho</td><td><strong>0</strong></td></tr>
+          <tr><td>Processo pai</td><td><strong>PID do filho (> 0)</strong></td></tr>
+          <tr><td>Erro</td><td><strong>negativo</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>⚠️ Regra de Ouro</h3>
+    <div class="callout success">
+      <strong>Cada fork() incondicional DOBRA o número de processos.</strong><br>
+      Após <strong>n</strong> forks, existem <strong>2ⁿ</strong> processos.
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Nº de forks</th><th>Nº de processos</th><th>Cálculo</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>1</td><td>2⁰ = 1</td></tr>
+          <tr><td>1</td><td>2</td><td>2¹ = 2</td></tr>
+          <tr><td>2</td><td>4</td><td>2² = 4</td></tr>
+          <tr><td>3</td><td>8</td><td>2³ = 8</td></tr>
+          <tr><td>4</td><td>16</td><td>2⁴ = 16</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Comportamento das Variáveis</h3>
+    <p>Cada processo tem seu <strong>próprio espaço de endereçamento</strong>. Alterações em variáveis são <strong>locais</strong> a cada processo (copy-on-write). O valor inicial é o mesmo, mas cada um evolui independentemente.</p>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Estrutura típica</h3>
+    <pre><code>pid_t pid = fork();
+if (pid == 0) {
+    // Código do FILHO (pid == 0)
+} else {
+    // Código do PAI (pid > 0)
+}</code></pre>
+  </div>
+
+  <div class="content-block">
+    <h3>⚠️ Pegadinhas</h3>
+    <div class="callout warning">
+      <strong>1.</strong> Variáveis são independentes entre pai e filho.<br>
+      <strong>2.</strong> Em <code>if/else if/else</code>, a primeira condição verdadeira ganha. Um filho herda <code>pid = 0</code> e cai no <code>if (pid == 0)</code> primeiro.<br>
+      <strong>3.</strong> A ordem de impressão é indeterminada, mas os valores são determinísticos.
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c2-3">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quantos processos filhos são criados por 3 forks incondicionais?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">2³ = <strong>8 processos totais</strong> → 1 pai + <strong>7 filhos</strong>.</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-3b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que fork() retorna no processo filho?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Retorna <strong>0</strong> no processo filho.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-3', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-3', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.4 — THREADS ==================== -->
+<section class="section" id="cap2-4">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Threads</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Um <strong>thread</strong> é um fluxo único de controle sequencial dentro de um programa. É como um "miniprocesso" que compartilha o espaço de endereçamento com outros threads do mesmo processo.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.2) + Slides (Cap02-Parte02)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Por que usar threads?</h3>
+    <ul>
+      <li><strong>Paralelismo:</strong> múltiplas atividades simultâneas.</li>
+      <li><strong>Leveza:</strong> criar thread é 10-100x mais rápido que criar processo.</li>
+      <li><strong>Desempenho:</strong> sobreposição de E/S e computação.</li>
+      <li><strong>Compartilhamento:</strong> threads compartilham memória.</li>
+    </ul>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Itens por Processo vs por Thread</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Por PROCESSO</th><th>Por THREAD</th></tr></thead>
+        <tbody>
+          <tr><td>Espaço de endereçamento</td><td>Contador de programa (PC)</td></tr>
+          <tr><td>Variáveis globais</td><td>Registradores</td></tr>
+          <tr><td>Arquivos abertos</td><td>Pilha</td></tr>
+          <tr><td>Processos filhos</td><td>Estado</td></tr>
+          <tr><td>Alarmes pendentes</td><td></td></tr>
+          <tr><td>Sinais e tratadores</td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Implementação</h3>
+    <div class="grid-3">
+      <div class="mini-card"><h4>👤 User-level</h4><p>Biblioteca gerencia. Rápido. Problema: chamadas bloqueantes travam tudo.</p></div>
+      <div class="mini-card"><h4>⚙️ Kernel-level</h4><p>SO gerencia. Mais lento. Chamadas bloqueantes não travam o processo todo.</p></div>
+      <div class="mini-card"><h4>🔀 Híbrido</h4><p>Multiplexa threads de usuário sobre threads de kernel.</p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Exemplo de uso</h3>
+    <p><strong>Servidor web multithread:</strong> um thread despachante lê requisições e passa para threads operários. Cada operário verifica o cache, lê do disco, retorna ao cliente.</p>
+    <p><strong>Processador de texto:</strong> 3 threads — um interage com usuário, um reformata, um faz backup.</p>
+  </div>
+
+  <div class="recall-block" data-id="c2-4">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é compartilhado entre threads do mesmo processo? O que é exclusivo de cada thread?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Compartilhado (por processo):</strong> espaço de endereçamento, variáveis globais, arquivos abertos, processos filhos.<br><br><strong>Exclusivo (por thread):</strong> PC, registradores, pilha, estado.</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-4b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a maior vantagem de threads de usuário? E a maior desvantagem?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Vantagem:</strong> rápida criação/troca (sem chamadas de sistema).<br><strong>Desvantagem:</strong> uma chamada bloqueante trava o processo inteiro (o núcleo não sabe dos threads).</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-4', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-4', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.5 — COMUNICAÇÃO (IPC) ==================== -->
+<section class="section" id="cap2-5">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Comunicação entre Processos (IPC)</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Processos precisam se comunicar. Três questões fundamentais:</p>
+    <ol>
+      <li>Como um processo passa informação para outro?</li>
+      <li>Como garantir que não interfiram entre si?</li>
+      <li>Como garantir a sequência correta (dependências)?</li>
+    </ol>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.3) + Slides (Cap02-ComunicaçãoInterprocAnt)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>⚠️ Condições de Corrida</h3>
+    <p>Ocorrem quando dois ou mais processos acessam dados compartilhados e o resultado depende de quem executa primeiro.</p>
+    <div class="callout warning">
+      <strong>Exemplo:</strong> Spooler de impressão — dois processos leem o mesmo slot livre (7) e ambos tentam usá-lo. O processo B nunca recebe sua impressão.
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Região Crítica</h3>
+    <p>Trecho de código que acessa recursos compartilhados. Deve ser executado por <strong>apenas um processo por vez</strong>.</p>
+    <div class="callout success">
+      <strong>4 condições para uma boa solução:</strong>
+      <ol>
+        <li>Exclusão mútua: nunca dois na RC juntos</li>
+        <li>Sem suposições: não depende de velocidades/nº CPUs</li>
+        <li>Fora da RC não bloqueia</li>
+        <li>Sem espera infinita</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c2-5">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é uma condição de corrida?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Situação onde dois ou mais processos leem/escrevem dados compartilhados e o resultado depende de quem executa primeiro.</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-5b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são as 4 condições para uma boa solução de exclusão mútua?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">1) Exclusão mútua<br>2) Sem suposições de velocidade/nº CPUs<br>3) Fora da RC não bloqueia<br>4) Sem espera infinita</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-5', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-5', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.6 — EXCLUSÃO MÚTUA ==================== -->
+<section class="section" id="cap2-6">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Exclusão Mútua (Soluções)</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Várias soluções foram propostas para garantir exclusão mútua. Umas usam <strong>espera ocupada</strong>, outras usam <strong>bloqueio</strong>.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.3.3) + Slides (Cap02-ComunicaçãoInterprocAnt)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Soluções com Espera Ocupada</h3>
+    <div class="grid-2">
+      <div class="mini-card bad"><h4>❌ Desabilitar Interrupções</h4><p>Funciona em monoprocessador. Não funciona em multicore. Processo pode esquecer de reabilitar.</p></div>
+      <div class="mini-card bad"><h4>❌ Variável Lock</h4><p>Condição de corrida: ambos leem 0 antes de escrever 1.</p></div>
+      <div class="mini-card warning"><h4>⚠️ Strict Alternation</h4><p>Usa <code>turn</code>. Viola Condição 3 (fora da RC bloqueia).</p></div>
+      <div class="mini-card good"><h4>✅ Peterson</h4><p>Combina <code>interested[]</code> + <code>turn</code>. Funciona com 2 processos.</p></div>
+      <div class="mini-card good"><h4>✅ TSL</h4><p>Instrução atômica de hardware. Funciona em multicore.</p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Strict Alternation (Código)</h3>
+    <pre><code>// P0
+while (turn != 0) { }
+/* RC */
+turn = 1;   // passa a vez
+
+// P1
+while (turn != 1) { }
+/* RC */
+turn = 0;   // passa a vez</code></pre>
+    <div class="callout warning">
+      <strong>⚠️ Viola Condição 3:</strong> Se P0 sai da RC e P1 está na região não-crítica, P0 não pode entrar de novo. P1 (fora da RC) bloqueia P0.
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Peterson (Código)</h3>
+    <pre><code>// Processo i (0 ou 1)
+int other = 1 - i;
+interested[i] = TRUE;
+turn = i;
+while (turn == i && interested[other] == TRUE) { }
+/* RC */
+interested[i] = FALSE;</code></pre>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 TSL (Test and Set Lock)</h3>
+    <pre><code>enter_region:
+    TSL REGISTER, LOCK    // copia lock p/ reg, lock=1
+    CMP REGISTER, #0      // lock era 0?
+    JNE enter_region      // se não, volta
+    RET
+
+leave_region:
+    MOVE LOCK, #0         // lock=0
+    RET</code></pre>
+  </div>
+
+  <div class="recall-block" data-id="c2-6">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual condição o Strict Alternation viola? Por quê?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Viola a <strong>Condição 3</strong> (fora da RC não bloqueia). Se P0 sai da RC e P1 está na região não-crítica, P0 não pode entrar de novo. P1 (fora da RC) bloqueia P0.</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-6b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a vantagem do TSL sobre as outras soluções de espera ocupada?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">TSL é uma <strong>instrução atômica de hardware</strong>. Funciona em <strong>multicore</strong> (trava o barramento de memória). As outras soluções não funcionam em multicore.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-6', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-6', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.7 — SEMÁFOROS E MUTEXES ==================== -->
+<section class="section" id="cap2-7">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Semáforos e Mutexes</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p><strong>Semáforo</strong> é uma variável inteira com 2 operações atômicas:</p>
+    <ul>
+      <li><code>down(s)</code> (ou P): espera/decrementa</li>
+      <li><code>up(s)</code> (ou V): libera/incrementa</li>
+    </ul>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.3.5) + Slides (Cap02-ComunicaçãoInterprocAnt, Slide 53-64)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Funcionamento</h3>
+    <div class="code-block">
+      <pre><code>down(s):
+    if (s > 0) {
+        s = s - 1;         // decrementa
+    } else {
+        bloqueia o processo; // espera na fila
+    }
+
+up(s):
+    if (existe processo bloqueado) {
+        acorda um deles;   // continua
+    } else {
+        s = s + 1;         // incrementa
+    }</code></pre>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Tipos de Semáforos</h3>
+    <div class="grid-2">
+      <div class="mini-card"><h4>Binário (Mutex)</h4><p>Valores 0 ou 1. Usado para exclusão mútua.</p></div>
+      <div class="mini-card"><h4>Contador</h4><p>Valores > 1. Usado para controlar pool de recursos (ex: 5 impressoras).</p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Mutexes</h3>
+    <p>Versão simplificada do semáforo binário. Usado para exclusão mútua.</p>
+    <ul>
+      <li><code>mutex_lock</code> — adquire a trava ou bloqueia</li>
+      <li><code>mutex_unlock</code> — libera a trava</li>
+      <li><code>mutex_trylock</code> — tenta adquirir, mas não bloqueia</li>
+    </ul>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Futexes</h3>
+    <p>Implementação do Linux que combina uma trava giratória (rápida) com uma fila de espera (lenta). Evita chamadas de sistema quando não há contenção.</p>
+  </div>
+
+  <div class="recall-block" data-id="c2-7">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que down() e up() fazem em um semáforo?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>down(s):</strong> se s > 0, decrementa. Se s = 0, bloqueia o processo.<br><strong>up(s):</strong> se há processo bloqueado, acorda um. Se não, incrementa.</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-7b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a diferença entre semáforo binário e contador?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Binário:</strong> só assume 0 ou 1. Usado para exclusão mútua (mutex).<br><strong>Contador:</strong> assume valores > 1. Usado para controlar pool de recursos.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-7', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-7', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.8 — MONITORES ==================== -->
+<section class="section" id="cap2-8">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Monitores</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p><strong>Monitor</strong> é uma primitiva de alto nível para sincronizar processos. É um conjunto de procedimentos, variáveis e estruturas de dados agrupados em um módulo.</p>
+    <p><strong>Propriedade:</strong> apenas um processo pode estar ativo dentro do monitor por vez.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.3.7) + Slides (Cap02-ComunicaçãoInterprocAnt, Slide 66-69)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Variáveis de Condição</h3>
+    <p>Permitem que um processo espere dentro do monitor.</p>
+    <ul>
+      <li><code>wait(c)</code> — bloqueia o processo na variável de condição c</li>
+      <li><code>signal(c)</code> — acorda um processo bloqueado em c</li>
+    </ul>
+    <div class="callout warning">
+      <strong>⚠️ Diferença de semáforos:</strong> Variáveis de condição NÃO têm memória. Se um signal é enviado sem ninguém esperando, ele é perdido.
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Exemplo (Produtor/Consumidor com Monitores)</h3>
+    <pre><code>monitor ProducerConsumer
+    condition full, empty;
+    integer count;
+
+    procedure insert(item):
+        if count = N then wait(full);
+        insert_item(item);
+        count := count + 1;
+        if count = 1 then signal(empty);
+
+    procedure remove():
+        if count = 0 then wait(empty);
+        remove_item();
+        count := count - 1;
+        if count = N-1 then signal(full);
+end monitor</code></pre>
+  </div>
+
+  <div class="recall-block" data-id="c2-8">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é um monitor e qual sua principal propriedade?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Monitor é uma primitiva de alto nível para sincronização. <strong>Propriedade:</strong> apenas um processo pode estar ativo dentro do monitor por vez. O compilador garante a exclusão mútua.</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-8b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que wait() e signal() fazem em um monitor?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>wait(c):</strong> bloqueia o processo na variável de condição c.<br><strong>signal(c):</strong> acorda um processo bloqueado em c.</div>
+  </div>
+
+  <div class="interrogation-block">
+    <span class="interrogation-icon">❓</span>
+    <p><strong>Por quê?</strong> Por que variáveis de condição <em>não</em> têm memória, diferente de semáforos?</p>
+    <button class="btn btn-reveal" onclick="revealInterrogation(this)">👁️ Ver resposta</button>
+    <div class="interrogation-answer">Porque em monitores, se um signal é enviado sem ninguém esperando, ele é <strong>perdido</strong>. Isso simplifica a implementação. Cabe ao programador verificar o estado com variáveis.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-8', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-8', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.9 — PRODUTOR/CONSUMIDOR ==================== -->
+<section class="section" id="cap2-9">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Problema Produtor/Consumidor</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Dois processos compartilham um buffer de tamanho fixo N:</p>
+    <ul>
+      <li><strong>Produtor:</strong> insere itens no buffer</li>
+      <li><strong>Consumidor:</strong> remove itens do buffer</li>
+    </ul>
+    <p><strong>Problema:</strong> Produtor dorme se buffer cheio; consumidor dorme se buffer vazio.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.3.4) + Slides (Cap02-ComunicaçãoInterprocAnt, Slide 42-50)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Solução com Semáforos</h3>
+    <pre><code>semaphore mutex = 1;   // exclusão mútua
+semaphore empty = N;   // slots vazios
+semaphore full = 0;    // slots ocupados
+
+void producer() {
+    while (TRUE) {
+        item = produce_item();
+        down(&empty);     // espera slot vazio
+        down(&mutex);     // entra na RC
+        insert_item(item);
+        up(&mutex);       // sai da RC
+        up(&full);        // sinaliza item
+    }
+}
+
+void consumer() {
+    while (TRUE) {
+        down(&full);      // espera item
+        down(&mutex);     // entra na RC
+        item = remove_item();
+        up(&mutex);       // sai da RC
+        up(&empty);       // sinaliza slot vazio
+        consume_item(item);
+    }
+}</code></pre>
+  </div>
+
+  <div class="content-block">
+    <h3>⚠️ Pegadinha</h3>
+    <div class="callout warning">
+      <strong>Inverter a ordem dos down</strong> (mutex antes de empty) causa <strong>DEADLOCK</strong>!<br>
+      Se o buffer está cheio, o produtor pega o mutex e bloqueia em empty. O consumidor não consegue pegar o mutex para liberar espaço.
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c2-9">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são os 3 semáforos usados no produtor/consumidor? O que cada um faz?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>mutex:</strong> exclusão mútua no buffer (1).<br><strong>empty:</strong> conta slots vazios (N).<br><strong>full:</strong> conta slots ocupados (0).</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-9b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que acontece se inverter a ordem dos down (mutex antes de empty)?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>DEADLOCK.</strong> Se o buffer está cheio, o produtor pega o mutex e bloqueia em empty. O consumidor não consegue pegar o mutex para liberar espaço.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-9', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-9', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.10 — JANTAR DOS FILÓSOFOS ==================== -->
+<section class="section" id="cap2-10">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Jantar dos Filósofos</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>5 filósofos, 5 garfos. Cada um precisa de 2 garfos para comer. Alternam entre pensar e comer.</p>
+    <p><strong>Desafio:</strong> Como evitar deadlock?</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.5.1) + Slides (Cap02-ProblemasClassicos)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>❌ Solução Ingênua (ERRADA)</h3>
+    <pre><code>void philosopher(int i) {
+    while (TRUE) {
+        think();
+        take_fork(i);           // pega esquerdo
+        take_fork((i+1) % N);   // pega direito
+        eat();
+        put_fork(i);
+        put_fork((i+1) % N);
+    }
+}</code></pre>
+    <div class="callout warning">
+      <strong>Problema:</strong> Se todos pegarem o garfo esquerdo ao mesmo tempo, nenhum consegue pegar o direito → <strong>DEADLOCK</strong>.
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>✅ Solução Correta (com Estados)</h3>
+    <pre><code>#define THINKING 0
+#define HUNGRY 1
+#define EATING 2
+
+int state[N];
+semaphore mutex = 1;
+semaphore s[N];
+
+void philosopher(int i) {
+    while (TRUE) {
+        think();
+        take_forks(i);
+        eat();
+        put_forks(i);
+    }
+}
+
+void take_forks(int i) {
+    down(&mutex);
+    state[i] = HUNGRY;      // ← AVISA que quer comer
+    test(i);
+    up(&mutex);
+    down(&s[i]);            // bloqueia se não conseguiu
+}
+
+void put_forks(int i) {
+    down(&mutex);
+    state[i] = THINKING;
+    test(LEFT);
+    test(RIGHT);
+    up(&mutex);
+}
+
+void test(int i) {
+    if (state[i] == HUNGRY &&
+        state[LEFT] != EATING &&
+        state[RIGHT] != EATING) {
+        state[i] = EATING;
+        up(&s[i]);
+    }
+}</code></pre>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Por que HUNGRY é essencial?</h3>
+    <p>A linha <code>state[i] = HUNGRY</code> é o <strong>"pedido de comida"</strong> do filósofo. A rotina <code>test()</code> verifica <code>state[i] == HUNGRY</code> para decidir se o filósofo pode comer.</p>
+    <div class="callout warning">
+      <strong>Sem HUNGRY:</strong> <code>test()</code> nunca libera o filósofo (state[i] ainda é THINKING).
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Por que a solução funciona?</h3>
+    <ul>
+      <li><strong>Sem deadlock:</strong> um filósofo só come se nenhum vizinho come.</li>
+      <li><strong>Sem inanição:</strong> quando um filósofo termina, ele libera os vizinhos.</li>
+      <li><strong>Máximo paralelismo:</strong> até 2 filósofos (não vizinhos) podem comer ao mesmo tempo.</li>
+    </ul>
+  </div>
+
+  <div class="recall-block" data-id="c2-10">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Por que a solução ingênua do jantar dos filósofos causa deadlock?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Porque se todos os 5 filósofos pegarem o garfo <strong>esquerdo</strong> ao mesmo tempo, nenhum consegue pegar o <strong>direito</strong> (que está com o vizinho). Ninguém solta, ninguém pega → <strong>DEADLOCK</strong>.</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-10b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Por que a variável de estado é configurada para HUNGRY na rotina take_forks?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Para indicar que o filósofo <strong>QUER COMER</strong>. A rotina <code>test()</code> verifica <code>state[i] == HUNGRY</code> para decidir se pode comer. Sem HUNGRY, <code>test()</code> nunca libera o filósofo.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-10', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-10', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.11 — LEITORES/ESCRITORES ==================== -->
+<section class="section" id="cap2-11">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Leitores/Escritores</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Múltiplos leitores podem ler simultaneamente. Escritor tem acesso exclusivo.</p>
+    <ul>
+      <li>Vários leitores podem ler juntos</li>
+      <li>Escritor precisa de acesso exclusivo</li>
+      <li>Leitor + Escritor = conflito</li>
+    </ul>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.5.2) + Slides (Cap02-ProblemasClassicos)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Solução (Prioridade para Leitores)</h3>
+    <pre><code>semaphore mutex = 1;   // protege rc
+semaphore db = 1;      // protege o banco
+int rc = 0;            // nº de leitores
+
+void reader() {
+    down(&mutex);
+    rc++;
+    if (rc == 1) down(&db);   // primeiro leitor trava
+    up(&mutex);
+    read_data();
+    down(&mutex);
+    rc--;
+    if (rc == 0) up(&db);     // último leitor libera
+    up(&mutex);
+}
+
+void writer() {
+    down(&db);
+    write_data();
+    up(&db);
+}</code></pre>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 As 3 Variações</h3>
+    <div class="grid-3">
+      <div class="mini-card"><h4>1. Prioridade Leitores</h4><p>Leitores entram enquanto houver um ativo. Escritores podem sofrer inanição.</p></div>
+      <div class="mini-card"><h4>2. Prioridade Escritores</h4><p>Escritor bloqueia leitores subsequentes. Leitores podem sofrer inanição.</p></div>
+      <div class="mini-card"><h4>3. Sem Prioridade</h4><p>Fila FIFO. Justo, mas ambos podem sofrer inanição.</p></div>
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c2-11">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">No problema dos leitores/escritores, o que o contador rc faz?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>rc</strong> conta o número de leitores ativos. O <strong>primeiro leitor</strong> (rc=1) trava o banco (down(&db)). O <strong>último leitor</strong> (rc=0) destrava (up(&db)).</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-11', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-11', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 2.12 — ESCALONAMENTO ==================== -->
+<section class="section" id="cap2-12">
+  <div class="section-header">
+    <span class="section-tag">Cap. 2 — Processos</span>
+    <h2>Escalonamento</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceitos Principais</h3>
+    <div class="grid-2">
+      <div class="mini-card"><h4>Escalonador</h4><p>Escolhe qual processo executar.</p></div>
+      <div class="mini-card"><h4>Despachante (Dispatcher)</h4><p>Salva/restaura contexto e troca para o processo escolhido.</p></div>
+      <div class="mini-card"><h4>Preemptivo</h4><p>Processo pode ser interrompido (RR, SRTN).</p></div>
+      <div class="mini-card"><h4>Não Preemptivo</h4><p>Processo executa até terminar/bloquear (FCFS, SJN).</p></div>
+    </div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 2.4) + Slides (Cap2-Escalonamento)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>📐 Fórmulas Essenciais</h3>
+    <div class="formula-box">
+      <p><strong>Turnaround</strong> = Conclusão − Chegada</p>
+      <p><strong>Espera</strong> = Turnaround − Execução</p>
+      <p><strong>Média</strong> = Σ(esperas) / n</p>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Algoritmos</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Algoritmo</th><th>Preemptivo?</th><th>Como funciona</th><th>Desvantagem</th></tr></thead>
+        <tbody>
+          <tr><td><strong>FCFS</strong></td><td>❌</td><td>Ordem de chegada</td><td>Efeito comboio</td></tr>
+          <tr><td><strong>SJF</strong></td><td>❌</td><td>Menor tempo primeiro</td><td>Inanição</td></tr>
+          <tr><td><strong>SRTN</strong></td><td>✅</td><td>Menor restante primeiro</td><td>Inanição</td></tr>
+          <tr><td><strong>RR</strong></td><td>✅</td><td>Quantum fixo, fila circular</td><td>Overhead</td></tr>
+          <tr><td><strong>Prioridade</strong></td><td>✅/❌</td><td>Maior prioridade primeiro</td><td>Inanição</td></tr>
+          <tr><td><strong>Múltiplas Filas</strong></td><td>✅</td><td>Filas com prioridades diferentes</td><td>Complexo</td></tr>
+          <tr><td><strong>Loteria</strong></td><td>✅</td><td>Sorteio de bilhetes</td><td>Aleatório</td></tr>
+          <tr><td><strong>Fair-Share</strong></td><td>✅</td><td>Considera o dono do processo</td><td>Complexo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Round Robin (Regras)</h3>
+    <ol>
+      <li><strong>Fila inicial:</strong> ordem de chegada</li>
+      <li><strong>Execução:</strong> primeiro da fila executa por 1 quantum</li>
+      <li><strong>Se terminou:</strong> sai da fila ✅</li>
+      <li><strong>Se não terminou:</strong> volta para o fim da fila</li>
+      <li><strong>Novos processos:</strong> entram no fim quando chegam</li>
+      <li><strong>Ordem:</strong> preemptado primeiro, depois novos</li>
+      <li><strong>Fila vazia:</strong> CPU fica ociosa até próximo chegar</li>
+    </ol>
+  </div>
+
+  <div class="content-block">
+    <h3>⚠️ Pegadinhas</h3>
+    <div class="callout warning">
+      <strong>1.</strong> Chegada ≠ 0: espere o processo chegar.<br>
+      <strong>2.</strong> Turnaround ≠ Espera: não confunda!<br>
+      <strong>3.</strong> Empate: use FCFS (ordem de chegada).<br>
+      <strong>4.</strong> Quantum muito pequeno: muitas trocas, overhead.<br>
+      <strong>5.</strong> Quantum muito grande: vira FCFS.
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c2-12">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a fórmula do turnaround? E da espera?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Turnaround</strong> = Conclusão − Chegada<br><strong>Espera</strong> = Turnaround − Execução</div>
+  </div>
+
+  <div class="recall-block" data-id="c2-12b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual algoritmo tem o melhor tempo médio de retorno? E qual o pior?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Melhor:</strong> SJF (menor tempo médio).<br><strong>Pior:</strong> RR com quantum pequeno (muitas trocas).</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c2-12', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c2-12', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CAPÍTULO 6 — IMPASSE
+     ============================================================ -->
+
+<!-- ==================== CAP 6.1 — DEFINIÇÃO ==================== -->
+<section class="section" id="cap6-1">
+  <div class="section-header">
+    <span class="section-tag">Cap. 6 — Impasse</span>
+    <h2>Definição e 4 Condições</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Definição</h3>
+    <p><strong>Impasse (deadlock)</strong> é uma situação onde um conjunto de processos está bloqueado para sempre, cada um esperando por um recurso que outro processo do conjunto possui.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 6.1-6.2) + Slides (Deadlocks.pdf)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 As 4 Condições (Coffman et al., 1971)</h3>
+    <div class="grid-2">
+      <div class="mini-card"><h4>1. Exclusão Mútua</h4><p>Cada recurso está associado a exatamente um processo ou está disponível.</p></div>
+      <div class="mini-card"><h4>2. Posse e Espera</h4><p>Processos que possuem recursos podem solicitar novos recursos.</p></div>
+      <div class="mini-card"><h4>3. Não Preempção</h4><p>Recursos não podem ser tomados à força; devem ser liberados explicitamente.</p></div>
+      <div class="mini-card"><h4>4. Espera Circular</h4><p>Existe uma cadeia circular de processos esperando.</p></div>
+    </div>
+    <div class="callout success">
+      <strong>⚠️ TODAS as 4 devem estar presentes!</strong> Se uma faltar, NÃO há impasse.
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Recursos Preemptíveis vs Não-Preemptíveis</h3>
+    <div class="grid-2">
+      <div class="mini-card good"><h4>Preemptíveis</h4><p>Podem ser retirados sem prejuízo. Ex: memória, CPU.</p></div>
+      <div class="mini-card bad"><h4>Não-Preemptíveis</h4><p>Não podem ser retirados. Ex: CD-ROM, unidades de fita.</p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Exemplo de Impasse</h3>
+    <p>Processo A tem R e quer S. Processo B tem S e quer R. Nenhum solta, nenhum pega → impasse.</p>
+    <p>Processo C espera T (que está com D). Processo D espera U (que está com C). Ciclo: C → T → D → U → C.</p>
+  </div>
+
+  <div class="recall-block" data-id="c6-1">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são as 4 condições necessárias para um impasse?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">1) Exclusão mútua<br>2) Posse e espera<br>3) Não preempção<br>4) Espera circular</div>
+  </div>
+
+  <div class="recall-block" data-id="c6-1b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Defina impasse.</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Um conjunto de processos está em impasse se cada processo no conjunto está esperando por um evento que apenas outro processo do conjunto pode causar.</div>
+  </div>
+
+  <div class="interrogation-block">
+    <span class="interrogation-icon">❓</span>
+    <p><strong>Por quê?</strong> Por que a ausência de qualquer uma das 4 condições evita o impasse?</p>
+    <button class="btn btn-reveal" onclick="revealInterrogation(this)">👁️ Ver resposta</button>
+    <div class="interrogation-answer">Porque as 4 são <strong>necessárias</strong>. Se uma não existe, o ciclo de espera não se forma. Ex: sem espera circular, não há ciclo.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c6-1', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c6-1', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 6.2 — GRAFOS ==================== -->
+<section class="section" id="cap6-2">
+  <div class="section-header">
+    <span class="section-tag">Cap. 6 — Impasse</span>
+    <h2>Grafos de Alocação de Recursos</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Grafos representam deadlocks:</p>
+    <ul>
+      <li><strong>Círculos</strong> = processos</li>
+      <li><strong>Quadrados</strong> = recursos</li>
+      <li><strong>Seta P → R</strong> = processo solicita recurso</li>
+      <li><strong>Seta R → P</strong> = recurso alocado a processo</li>
+    </ul>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 6.2.2) + Slides (Deadlocks.pdf, Slide 8-9)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Ciclo = Impasse</h3>
+    <div class="callout warning">
+      <strong>Se o grafo contém um ciclo, há um impasse</strong> (presumindo um recurso de cada tipo).
+    </div>
+    <p><strong>Exemplo:</strong> P1 → R1 → P2 → R2 → P1</p>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Wait-For Graph (Grafo de Espera)</h3>
+    <p>Simplificação: só processos. Aresta P → Q significa que P espera recurso de Q.</p>
+    <p><strong>Algoritmo:</strong></p>
+    <ol>
+      <li>Criar nó para cada processo</li>
+      <li>Para cada processo que espera recurso:
+        <ul>
+          <li>Identificar recurso e dono</li>
+          <li>Criar aresta P → Q</li>
+        </ul>
+      </li>
+      <li>DFS para detectar ciclo</li>
+      <li>Se ciclo → IMPASSE</li>
+    </ol>
+  </div>
+
+  <div class="recall-block" data-id="c6-2">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que significa um ciclo em um grafo de alocação de recursos?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Significa que há um <strong>IMPASSE</strong> envolvendo os processos e recursos no ciclo (presumindo um recurso de cada tipo).</div>
+  </div>
+
+  <div class="recall-block" data-id="c6-2b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é um wait-for graph?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Grafo simplificado com apenas processos. Aresta P → Q significa que P espera recurso de Q. Se houver ciclo → impasse.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c6-2', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c6-2', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 6.3 — ESTRATÉGIAS ==================== -->
+<section class="section" id="cap6-3">
+  <div class="section-header">
+    <span class="section-tag">Cap. 6 — Impasse</span>
+    <h2>Estratégias para Lidar com Impasses (5)</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Estratégia</th><th>Atua em</th><th>Vantagem</th><th>Desvantagem</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Ignorar</strong></td><td>Nenhuma</td><td>Simples</td><td>Pode ocorrer</td></tr>
+          <tr><td><strong>2. Prevenção</strong></td><td>Nega 1 das 4</td><td>Garante ausência</td><td>Baixa utilização</td></tr>
+          <tr><td><strong>3. Evasão</strong></td><td>Evita ciclo</td><td>Flexível</td><td>Requer info prévia</td></tr>
+          <tr><td><strong>4. Detecção</strong></td><td>Nenhuma</td><td>Sem restrições</td><td>Overhead</td></tr>
+          <tr><td><strong>5. Recuperação</strong></td><td>Nenhuma</td><td>Resolve</td><td>Trabalho perdido</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 6.3-6.6) + Slides (Deadlocks.pdf, Slide 10-12)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Detalhamento</h3>
+    <div class="grid-2">
+      <div class="mini-card"><h4>1. Ignorar (Avestruz)</h4><p>Comparar frequência com outras falhas. Se raro, ignorar.</p></div>
+      <div class="mini-card"><h4>2. Prevenção</h4><p>Negar 1 das 4 condições. Ex: ordenar recursos.</p></div>
+      <div class="mini-card"><h4>3. Evasão (Banqueiro)</h4><p>Verificar estado seguro antes de conceder.</p></div>
+      <div class="mini-card"><h4>4. Detecção</h4><p>Grafo de espera, matrizes.</p></div>
+      <div class="mini-card"><h4>5. Recuperação</h4><p>Preempção, rollback, eliminação.</p></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Recuperação</h3>
+    <ul>
+      <li><strong>Preempção:</strong> retirar recurso de um processo e dar a outro.</li>
+      <li><strong>Rollback:</strong> voltar ao estado anterior (checkpoint).</li>
+      <li><strong>Eliminação:</strong> matar processos do ciclo.</li>
+    </ul>
+  </div>
+
+  <div class="recall-block" data-id="c6-3">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são as 5 estratégias para lidar com impasses?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">1) Ignorar<br>2) Prevenção<br>3) Evasão (avoidance)<br>4) Detecção<br>5) Recuperação</div>
+  </div>
+
+  <div class="recall-block" data-id="c6-3b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Em qual condição a Prevenção Evasiva (Avoidance) atua?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Em NENHUMA.</strong> A Evasão NÃO nega nenhuma condição. Ela evita o ciclo dinamicamente, verificando se o estado é seguro antes de conceder recursos (Algoritmo do Banqueiro).</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c6-3', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c6-3', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 6.4 — DETECÇÃO ==================== -->
+<section class="section" id="cap6-4">
+  <div class="section-header">
+    <span class="section-tag">Cap. 6 — Impasse</span>
+    <h2>Detecção de Impasse</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Deixa o impasse ocorrer e depois detecta.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 6.4) + Slides (Deadlocks.pdf, Slide 13-24)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Detecção com 1 Recurso de Cada Tipo</h3>
+    <p>Usa <strong>grafo de espera (wait-for graph)</strong>:</p>
+    <ol>
+      <li>Criar nó para cada processo</li>
+      <li>Para cada processo que espera recurso, criar aresta P → Q</li>
+      <li>DFS para detectar ciclo</li>
+      <li>Se ciclo → IMPASSE</li>
+    </ol>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Detecção com Múltiplos Recursos</h3>
+    <p>Usa <strong>matrizes</strong>:</p>
+    <ul>
+      <li><strong>E</strong> = recursos existentes (total)</li>
+      <li><strong>A</strong> = recursos disponíveis</li>
+      <li><strong>C</strong> = matriz de alocação atual</li>
+      <li><strong>R</strong> = matriz de requisições (Necessário)</li>
+    </ul>
+    <div class="formula-box">
+      <p><strong>Necessário</strong> = Máximo − Alocado</p>
+      <p><strong>Disponível</strong> = E − Total Alocado</p>
+    </div>
+    <p><strong>Algoritmo:</strong></p>
+    <ol>
+      <li>Procure processo com R ≤ A</li>
+      <li>Se encontrar: A = A + C[i], marque como concluído</li>
+      <li>Repita até todos terminarem (sem impasse) ou ninguém poder executar (impasse)</li>
+    </ol>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Exemplo</h3>
+    <p>3 processos, 4 recursos. E = (4,2,3,1). A = (2,1,0,0). C e R matrizes.</p>
+    <p>P3 pode rodar → A = (2,2,2,0) → P2 pode rodar → A = (4,2,2,1) → P1 pode rodar.</p>
+  </div>
+
+  <div class="recall-block" data-id="c6-4">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Como funciona a detecção de impasse com 1 recurso de cada tipo?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Usa <strong>grafo de espera</strong>: criar nó para cada processo, arestas P→Q se P espera recurso de Q. Se houver <strong>ciclo</strong> → IMPASSE.</div>
+  </div>
+
+  <div class="recall-block" data-id="c6-4b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Quais são as 4 matrizes/vetores usados na detecção com múltiplos recursos?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">E (recursos existentes), A (disponíveis), C (alocação atual), R (requisições).</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c6-4', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c6-4', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 6.5 — BANQUEIRO ==================== -->
+<section class="section" id="cap6-5">
+  <div class="section-header">
+    <span class="section-tag">Cap. 6 — Impasse</span>
+    <h2>Algoritmo do Banqueiro</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Algoritmo de <strong>evasão</strong> que verifica se um estado é <strong>SEGURO</strong> antes de conceder recursos.</p>
+    <ul>
+      <li><strong>Estado seguro:</strong> existe sequência onde todos terminam</li>
+      <li><strong>Estado inseguro:</strong> não há garantia</li>
+    </ul>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 6.5) + Slides (Deadlocks.pdf, Slide 27-35)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Estruturas</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Símbolo</th><th>Significado</th></tr></thead>
+        <tbody>
+          <tr><td><strong>E</strong></td><td>Recursos existentes (total)</td></tr>
+          <tr><td><strong>A</strong></td><td>Recursos disponíveis</td></tr>
+          <tr><td><strong>C</strong></td><td>Matriz de alocação atual</td></tr>
+          <tr><td><strong>R</strong></td><td>Matriz de requisições (Necessário)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>📐 Fórmulas Essenciais</h3>
+    <div class="formula-box">
+      <p><strong>Necessário</strong> = Máximo − Alocado</p>
+      <p><strong>Disponível</strong> = Total Existente − Total Alocado</p>
+      <p><strong>Invariante:</strong> ΣC + A = E</p>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Passo a Passo</h3>
+    <ol class="steps">
+      <li>Calcular <strong>Necessário</strong> = Máximo − Alocado</li>
+      <li>Anotar <strong>Disponível</strong> (A)</li>
+      <li>Procurar processo com <strong>Necessário ≤ Disponível</strong></li>
+      <li>Se encontrar: <strong>A = A + Alocado[i]</strong>, marcar como concluído</li>
+      <li>Repetir até:
+        <ul>
+          <li>Todos executarem → <strong>SEGURO</strong> ✅</li>
+          <li>Sobrar processo → <strong>INSEGURO</strong> ❌</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <div class="content-block">
+    <h3>⚠️ Pegadinhas</h3>
+    <div class="callout warning">
+      <strong>1.</strong> Necessário = Máximo − Alocado (SEMPRE calcule!)<br>
+      <strong>2.</strong> Estado inseguro ≠ deadlock (pode nunca ocorrer)<br>
+      <strong>3.</strong> Após conceder: subtraia do disponível, some ao alocado, subtraia do necessário<br>
+      <strong>4.</strong> Qualquer ordem serve se todos terminarem
+    </div>
+  </div>
+
+  <div class="recall-block" data-id="c6-5">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é um estado seguro no algoritmo do banqueiro?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Estado onde existe uma <strong>sequência de execução</strong> onde todos os processos terminam. A partir de um estado seguro, há garantia de que não haverá deadlock.</div>
+  </div>
+
+  <div class="recall-block" data-id="c6-5b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Por que o algoritmo do banqueiro é classificado como evasão e não detecção?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Porque ele age <strong>ANTES</strong> do deadlock ocorrer (verifica segurança antes de conceder). Detecção age <strong>DEPOIS</strong> (deixa ocorrer e detecta).</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c6-5', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c6-5', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 6.6 — PREVENÇÃO ==================== -->
+<section class="section" id="cap6-6">
+  <div class="section-header">
+    <span class="section-tag">Cap. 6 — Impasse</span>
+    <h2>Prevenção de Impasse</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <p>Prevenir = negar estruturalmente <strong>UMA</strong> das 4 condições.</p>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 6.6) + Slides (Deadlocks.pdf, Slide 36)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Como atacar cada condição</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Condição</th><th>Como atacar</th><th>Custo</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Exclusão Mútua</strong></td><td>Usar spool em tudo</td><td>Nem todos recursos virtualizáveis</td></tr>
+          <tr><td><strong>Posse e Espera</strong></td><td>Requisitar todos os recursos no início</td><td>Desperdício, requer previsão</td></tr>
+          <tr><td><strong>Não Preempção</strong></td><td>Virtualizar recursos</td><td>Nem todos recursos virtualizáveis</td></tr>
+          <tr><td><strong>Espera Circular</strong></td><td>Ordenar recursos numericamente</td><td>Difícil ordenar recursos abstratos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Ordenação de Recursos (Espera Circular)</h3>
+    <p><strong>Regra:</strong> Todos os processos devem solicitar recursos em <strong>ordem crescente</strong>.</p>
+    <div class="callout success">
+      <strong>Por que funciona:</strong> Nenhum processo pede recurso de número menor que os que já tem. Não forma ciclo.
+    </div>
+    <p><strong>Exemplo:</strong></p>
+    <ul>
+      <li>P1: M1 → M2 ✅ (já em ordem)</li>
+      <li>P2: M2 → M3 ✅ (já em ordem)</li>
+      <li>P3: M3 → M1 ❌ → Corrigir para <strong>M1 → M3</strong></li>
+    </ul>
+  </div>
+
+  <div class="recall-block" data-id="c6-6">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Como prevenir impasse atacando a condição de espera circular?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Ordenar os recursos numericamente</strong> e exigir que todos os processos os solicitem em <strong>ordem crescente</strong>. Assim, nenhum processo pede recurso de número menor que os que já tem → não forma ciclo.</div>
+  </div>
+
+  <div class="recall-block" data-id="c6-6b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Como atacar cada uma das 4 condições?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Exclusão Mútua: spool. Posse e Espera: requisitar tudo no início. Não Preempção: virtualizar. Espera Circular: ordenar recursos.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c6-6', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c6-6', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+<!-- ==================== CAP 6.7 — LIVELOCK E INANIÇÃO ==================== -->
+<section class="section" id="cap6-7">
+  <div class="section-header">
+    <span class="section-tag">Cap. 6 — Impasse</span>
+    <h2>Livelock e Inanição</h2>
+  </div>
+
+  <div class="content-block">
+    <h3>📌 Conceito Principal</h3>
+    <div class="grid-2">
+      <div class="mini-card bad"><h4>💀 Impasse (Deadlock)</h4><p>Sistema NÃO progride. Todos bloqueados.</p></div>
+      <div class="mini-card warning"><h4>🔄 Livelock</h4><p>Processos NÃO estão bloqueados, mas nenhum progride. Ex: dois processos tentando ser educados e dando passos laterais.</p></div>
+      <div class="mini-card warning"><h4>😢 Inanição (Starvation)</h4><p>Sistema PROGRIDE, mas um processo espera para sempre.</p></div>
+    </div>
+    <div class="callout info"><strong>💡 Fonte:</strong> Livro (Seção 6.7) + Slides (Deadlocks.pdf, Slide 37)</div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Comparação</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspecto</th><th>Impasse</th><th>Inanição</th></tr></thead>
+        <tbody>
+          <tr><td>Sistema progride?</td><td>❌ Não</td><td>✅ Sim</td></tr>
+          <tr><td>Causa</td><td>Ciclo de espera</td><td>Política injusta</td></tr>
+          <tr><td>Quem está bloqueado?</td><td>Todos do ciclo</td><td>Apenas 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 É possível ter:</h3>
+    <ul>
+      <li><strong>Inanição SEM impasse?</strong> ✅ SIM (SJN com fluxo de curtos)</li>
+      <li><strong>Impasse SEM inanição?</strong> ✅ SIM (todos esperando ativamente)</li>
+    </ul>
+  </div>
+
+  <div class="content-block">
+    <h3>🔑 Exemplo de Livelock</h3>
+    <p>Dois processos tentando ser educados: ambos dão um passo para o lado ao mesmo tempo, e continuam dando passos laterais, sem nunca progredir.</p>
+  </div>
+
+  <div class="recall-block" data-id="c6-7">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">Qual a diferença entre impasse e inanição?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer"><strong>Impasse:</strong> sistema NÃO progride (todos bloqueados).<br><strong>Inanição:</strong> sistema PROGRIDE, mas 1 processo espera para sempre (postergado).</div>
+  </div>
+
+  <div class="recall-block" data-id="c6-7b">
+    <div class="recall-header"><span class="recall-icon">🧠</span><span class="recall-title">Active Recall</span></div>
+    <div class="recall-question">O que é livelock?</div>
+    <button class="btn btn-reveal" onclick="revealRecall(this)">👁️ Revelar</button>
+    <div class="recall-answer">Processos NÃO estão bloqueados, mas nenhum progride. Ex: dois processos tentando ser educados e dando passos laterais ao mesmo tempo. Diferente do impasse, os processos estão ativos.</div>
+  </div>
+
+  <div class="mastery-block">
+    <p><strong>Você domina este conceito?</strong></p>
+    <button class="btn btn-mastery yes" onclick="markMastery('c6-7', true)">✅ Sim, domino</button>
+    <button class="btn btn-mastery no" onclick="markMastery('c6-7', false)">❌ Ainda não</button>
+  </div>
+</section>
+
+</main>
+
+<!-- PAINEL: MEUS ERROS -->
+<div class="panel" id="panelErros">
+  <div class="panel-header"><h2>❌ Meus Erros</h2><button class="btn-close" onclick="closePanel('panelErros')">✕</button></div>
+  <div class="panel-body" id="errosBody"><p class="empty-state">Nenhum erro registrado ainda.</p></div>
+</div>
+
+<!-- PAINEL: RESUMO ATIVO -->
+<div class="panel" id="panelResumo">
+  <div class="panel-header"><h2>🎯 Resumo Ativo</h2><button class="btn-close" onclick="closePanel('panelResumo')">✕</button></div>
+  <div class="panel-body" id="resumoBody">
+    <div class="resumo-section"><h3>O que você precisa lembrar</h3><div id="resumoPontos"></div></div>
+    <div class="resumo-section"><h3>Tente lembrar sem olhar</h3><div id="resumoPerguntas"></div></div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
